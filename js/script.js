@@ -5,23 +5,21 @@ class User {
     this.age = _age;
     this.location = _location;
   }
+  ageCompare(anotherUser) {
+    if (this.age > anotherUser.age) {
+      return this.firstName + " " + this.lastName + " è più grande di " + anotherUser.firstName + " " + anotherUser.lastName;
+    } else {
+      return anotherUser.firstName + " " + anotherUser.lastName + " è più grande di " + this.firstName + " " + this.lastName;
+    }
+  }
 }
-
 const user1 = new User("Mara", "Maionchi", 84, "Milano");
 console.log(user1);
 
 const user2 = new User("Costantino", "Della Gherardesca", 48, "Como");
 console.log(user2);
 
-const ageCompare = function (firstUser, secondUser) {
-  if (firstUser.age > secondUser.age) {
-    console.log(firstUser.firstName + " " + firstUser.lastName + " è più grande di " + secondUser.firstName + " " + secondUser.lastName);
-  } else {
-    console.log(secondUser.firstName + " " + secondUser.lastName + " è più grande di " + firstUser.firstName + " " + firstUser.lastName);
-  }
-};
-
-ageCompare(user1, user2);
+console.log(user2.ageCompare(user1));
 
 /* class Pet {
   constructor(_petName, _ownerName, _species, _breed) {
@@ -54,6 +52,10 @@ form.onsubmit = function (event) {
 };
  */
 
+const form = document.getElementById("form");
+const ul = document.querySelector("ul");
+const pets = [];
+
 class Pet {
   constructor(_petName, _ownerName, _species, _breed) {
     this.petName = _petName;
@@ -62,17 +64,14 @@ class Pet {
     this.breed = _breed;
   }
 
-  ownerCompare(firstOwner, secondOwner) {
-    if (firstOwner === secondOwner) {
+  ownerCompare(secondPet) {
+    if (this.ownerName === secondPet.ownerName) {
       console.log(true);
     } else {
       console.log(false);
     }
   }
 }
-
-const form = document.getElementById("form");
-const ul = document.querySelector("ul");
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -85,11 +84,75 @@ form.addEventListener("submit", function (event) {
   const newPet = new Pet(petName, ownerName, species, breed);
 
   const li = document.createElement("li");
-  li.textContent = `Name: ${newPet.petName} Species: ${newPet.species} Breed: ${newPet.breed} Owner: ${newPet.ownerName}`;
+  li.textContent = `Nome animale: ${newPet.petName}, nome proprietario: ${newPet.ownerName}, specie: ${newPet.species}, razza: ${newPet.breed}`;
 
   ul.appendChild(li);
 
   form.reset();
 
-  ownerCompare();
+  //ESERCIZIO1
+
+  class User {
+    constructor(_firstName, _lastName, _age, _location) {
+      this.firstName = _firstName;
+      this.lastName = _lastName;
+      this.age = _age;
+      this.location = _location;
+    }
+
+    compareAge(anotherUser) {
+      if (this.age > anotherUser.age) {
+        console.log(`${this.firstName} è più vecchio di ${anotherUser.firstName}`);
+      } else if (this.age < anotherUser.age) {
+        console.log(`${this.firstName} è più giovane di ${anotherUser.firstName}`);
+      } else {
+        console.log(`${this.firstName} e ${anotherUser.firstName} hanno la stessa età`);
+      }
+    }
+  }
+
+  const user1 = new User("Valeria", "Pagliarini", 29, "Fano");
+  const user2 = new User("Mario", "Rossi", 30, "Roma");
+
+  user1.compareAge(user2);
+
+  /*ESERCIZIO 2*/
+
+  class Pet {
+    constructor(_petName, _ownerName, _species, _breed) {
+      this.petName = _petName;
+      this.ownerName = _ownerName;
+      this.species = _species;
+      this.breed = _breed;
+    }
+
+    compareOwner(otherPet) {
+      if (this.ownerName === otherPet.ownerName) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+    }
+  }
+
+  const form = document.getElementById("form");
+  const ul = document.getElementById("ul");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const petName = document.getElementById("petName").value;
+    const ownerName = document.getElementById("ownerName").value;
+    const species = document.getElementById("species").value;
+    const breed = document.getElementById("breed").value;
+
+    const newPet = new Pet(petName, ownerName, species, breed);
+
+    const li = document.createElement("li");
+    li.textContent = `Name: ${newPet.petName} Species: ${newPet.species} Breed: ${newPet.breed} Owner: ${newPet.ownerName}`;
+
+    ul.appendChild(li);
+
+    form.reset();
+  });
 });
